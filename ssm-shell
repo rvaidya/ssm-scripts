@@ -1,0 +1,12 @@
+#!/bin/bash
+
+instance_name=$1
+run_command=$2
+
+# find the instance ID based on Tag Name
+INSTANCE_ID=$(aws-resolve-host $instance_name)
+
+# create the port forwarding tunnel
+aws ssm send-command --instance-ids "$INSTANCE_ID" \
+                     --document-name AWS-RunShellScript \
+                     --parameters "{\"commands\":[\"$run_command\"]}"

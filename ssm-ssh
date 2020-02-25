@@ -1,0 +1,12 @@
+#!/bin/bash
+
+instance_name=$1
+port_number=$2
+
+# find the instance ID based on Tag Name
+INSTANCE_ID=$(aws-resolve-host $instance_name)
+
+# create the session
+aws ssm start-session --target $INSTANCE_ID \
+                       --document-name AWS-StartSSHSession \
+                       --parameters "{\"portNumber\":[\"$port_number\"]}"

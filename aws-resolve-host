@@ -1,0 +1,9 @@
+#!/bin/bash
+instance_name=$1
+
+# find the instance ID based on Tag Name
+INSTANCE_ID=$(aws ec2 describe-instances \
+	               --filter "Name=tag:Name,Values=$instance_name" \
+		       --query "Reservations[].Instances[?State.Name == 'running'].InstanceId[]" \
+                       --output text)
+echo $INSTANCE_ID
