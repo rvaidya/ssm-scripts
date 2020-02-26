@@ -2,8 +2,9 @@
 
 ssm_username=$1
 ssm_password=$2
-remote_port=${3:-3389}
-local_port=${4:-54000}
+local_port=${3:-54000}
+remote_port=${4:-3389}
+ssm_host=${5:-localhost}
 
 mstsc_exists="$(which mstsc.exe)"
 cmdkey_exists="$(which cmdkey.exe)"
@@ -14,11 +15,13 @@ then
   exit 0
 fi
 
+echo "Starting the RDP connection..."
+
 # save the generated credentials
-cmdkey.exe /generic:"localhost" /user:"$ssm_username" /pass:"$ssm_password"
+cmdkey.exe /generic:"$ssm_host" /user:"$ssm_username" /pass:"$ssm_password"
 
 # launch the RDP client, sleep for a bit to allow time for the tunnel to establish
-mstsc.exe /v:"localhost:$local_port"
+mstsc.exe /v:"$ssm_host:$local_port"
 
 # remove the credentials as well
-cmdkey.exe /delete:"localhost"
+cmdkey.exe /delete:"$ssm_host"
