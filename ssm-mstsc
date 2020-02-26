@@ -1,0 +1,24 @@
+#!/bin/bash
+
+ssm_username=$1
+ssm_password=$2
+remote_port=${3:-3389}
+local_port=${4:-54000}
+
+mstsc_exists="$(which mstsc.exe)"
+cmdkey_exists="$(which cmdkey.exe)"
+
+# only proceed if we have Windows binaries available
+if [ -z "$mstsc_exists" ] || [ -z "$cmdkey_exists" ]
+then
+  exit 0
+fi
+
+# save the generated credentials
+cmdkey.exe /generic:"localhost" /user:"$ssm_username" /pass:"$ssm_password"
+
+# launch the RDP client, sleep for a bit to allow time for the tunnel to establish
+mstsc.exe /v:"localhost:$local_port"
+
+# remove the credentials as well
+cmdkey.exe /delete:"localhost"
