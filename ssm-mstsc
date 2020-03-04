@@ -15,6 +15,13 @@ then
   exit 0
 fi
 
+echo "Waiting for the local RDP port to become available..."
+
+# wait for the local port to be available
+while ! nc -z $ssm_host $local_port; do   
+  sleep 1
+done
+
 echo "Starting the RDP connection..."
 
 # save the generated credentials

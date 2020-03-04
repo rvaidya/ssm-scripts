@@ -23,10 +23,11 @@ echo "Username: $ssm_username"
 echo "Password: $ssm_password"
 
 # run mstsc if binaries exist, in background
-(sleep 5 && ssm-mstsc "$ssm_username" "$ssm_password" $local_port $remote_port "$ssm_host") &
+ssm-mstsc "$ssm_username" "$ssm_password" $local_port $remote_port "$ssm_host" &
 
 # create the port forwarding tunnel
 ssm-tunnel $instance_name $remote_port $local_port
 
 # remove the user once we're done
 ssm-ps $instance_name "Remove-LocalUser -Name '$ssm_username'" > /dev/null
+echo "Temporary account removed."
