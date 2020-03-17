@@ -1,6 +1,6 @@
 #!/bin/bash
 
-if [ -z $* ]
+if [ $# -eq 0 ]
 then
   echo "Syntax:"
   echo "  ssm-tunnel <options> <args>"
