@@ -6,4 +6,16 @@ INSTANCE_ID=$(aws ec2 describe-instances \
 	               --filter "Name=tag:Name,Values=$instance_name" \
 		       --query "Reservations[].Instances[?State.Name == 'running'].InstanceId[]" \
                        --output text)
+
+exit_code=$?
+
 echo $INSTANCE_ID
+
+exit_code=$?
+
+if [ $exit_code -ne 0 ] || [ -z $INSTANCE_ID ]
+then
+	exit 1
+fi
+
+exit $exit_code

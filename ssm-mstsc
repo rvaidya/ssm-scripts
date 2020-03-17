@@ -1,5 +1,22 @@
 #!/bin/bash
 
+if [ -z $* ]
+then
+  echo "Syntax:"
+  echo "  ssm-mstsc <options> <args>"
+  echo "    Options:"
+  echo "      -n (optional): AWS instance tag name"
+  echo "      -i (optional): AWS instance ID"
+  echo "      Either -n or -i must be specified"
+  echo "    Arguments:"
+  echo "      username"
+  echo "      password"
+  echo "      local port (optional, default 54000)"
+  echo "      remote port (optional, default 3389)"
+  echo "      host (optional, default localhost)"
+  exit 0
+fi
+
 ssm_username=$1
 ssm_password=$2
 local_port=${3:-54000}
