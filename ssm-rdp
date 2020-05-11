@@ -81,7 +81,7 @@ echo "Password: $ssm_password"
 ssm-mstsc "$ssm_username" "$ssm_password" $local_port $remote_port "$ssm_host" &
 
 # create the port forwarding tunnel
-ssm-tunnel -i $INSTANCE_ID $remote_port $local_port
+ssm-tunnel -i $INSTANCE_ID $local_port $remote_port
 
 # remove the user once we're done
 ssm-ps -i $INSTANCE_ID "Remove-LocalUser -Name '$ssm_username'" > /dev/null
